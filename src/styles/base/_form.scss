@@ -1,0 +1,21 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    > * {
+        margin-bottom: $m-size;
+    }
+
+}
+
+.form__error {
+    margin: 0 0 $m-size 0;
+    font-style: italic;
+}
+
+.form__label {
+    font-size: $m-size;
+    color: $black;
+    font-weight: bold;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
