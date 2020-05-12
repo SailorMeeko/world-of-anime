@@ -27,31 +27,53 @@ const Join = ({ isAuthenticated, register }) => {
 
     return (
         <Layout>
-            <h1>Join World of Anime</h1>
-            <form onSubmit={e => onSubmit(e)}>
-                <input 
-                type="text" 
-                placeholder="Username" 
-                name="username" 
-                value={username}
-                onChange={e => onChange(e)}
-                />
+            <p>So you've decided to join World of Anime? That's great! We're happy to have you! To join, just follow these very simple steps:</p>
+            <ul>
+                <li>Read and agree to the terms of service</li>
+                <li>Choose a username and a password, and give us your e-mail address</li>
+                <li>Click the "Sign me up" button.</li>
+                <li>Have lots of fun!</li>
+            </ul>
 
-                <input 
-                type="text" 
-                placeholder="E-mail Address" 
-                name="email" 
-                value={email}
-                onChange={e => onChange(e)}
+            <form onSubmit={e => onSubmit(e)}>
+                <div className="form__element">
+                    <label id="username-label" htmlFor="username">Username</label>
+                    <input 
+                    type="text" 
+                    placeholder="Username" 
+                    name="username" 
+                    value={username}
+                    size="20"
+                    maxLength="20"
+                    autoFocus="autofocus"
+                    autoCorrect="off"
+                    onChange={e => onChange(e)}
+                    />
+                </div>
+
+                <div className="form__element">
+                    <label id="email-label" htmlFor="email">E-mail address</label>
+                    <input 
+                    type="email" 
+                    placeholder="E-mail Address" 
+                    name="email" 
+                    value={email}
+                    autoCorrect="off"
+                    onChange={e => onChange(e)}
                 />
+                </div>
                 
-                <input 
-                type="password" 
-                placeholder="Password" 
-                name="password" 
-                value={password}
-                onChange={e => onChange(e)}
-                />       
+                <div className="form__element">
+                    <label id="password-label" htmlFor="password">Password</label>
+                    <input 
+                    type="password" 
+                    placeholder="Password" 
+                    name="password" 
+                    value={password}
+                    autoCorrect="off"
+                    onChange={e => onChange(e)}
+                    />
+                </div>
                 <button onClick={e => onSubmit(e)}>Sign me up!</button>
             </form>
         </Layout>

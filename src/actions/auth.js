@@ -22,7 +22,6 @@ export const loadUser = () => async dispatch => {
     }
 
     try {
-        console.log('Loading user...');
         const res = await api.get('/api/auth');
         dispatch({
             type: USER_LOADED,
@@ -47,7 +46,6 @@ export const register = ({ username, email, password }) => async dispatch => {
     const body = JSON.stringify({ username, email, password });
 
     try {
-        console.log('Registering a user.');
         const res = await api.post('/api/users', body, config);
         
         dispatch({
@@ -80,7 +78,6 @@ export const login = (email, password) => async dispatch => {
     const body = JSON.stringify({ email, password });
 
     try {
-        console.log('Logging in a user');
         const res = await api.post('/api/auth', body, config);
         
         dispatch({
@@ -89,15 +86,16 @@ export const login = (email, password) => async dispatch => {
         });
 
        dispatch(loadUser());
+
+       return { loggedIn: true };
     } catch (error) {
         const errors = error?.response?.data?.errors;
         
-        if (errors) {
-            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-        }
         dispatch({
             type: LOGIN_FAIL
         });
+
+        return { loggedIn: false, errors };
     }
 }
 

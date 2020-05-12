@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Login from '../auth/Login';
 import Header from './Header';
 
 const Layout = (props) => {
@@ -13,11 +12,9 @@ const Layout = (props) => {
                     alt='World of Anime' 
                 />
 
-                <div>
+                <main>
                     {props.children}
-                </div>
-
-                <Login />
+                </main>
             </div>
         </Fragment>
     )

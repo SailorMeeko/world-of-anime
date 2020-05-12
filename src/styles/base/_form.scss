@@ -7,6 +7,18 @@
 
 }
 
+.form__element {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    label {
+        width: 120px;
+    }
+    @media (min-width: $desktop-breakpoint - .01rem) {
+        flex-direction: row;
+    }
+}
+
 .form__error {
     margin: 0 0 $m-size 0;
     font-style: italic;

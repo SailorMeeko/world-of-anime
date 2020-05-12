@@ -1,33 +1,51 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/auth';
+import { useHistory } from 'react-router-dom';
+import { login } from '../actions/auth';
+import Layout from './layout/Layout';
 
 const Login = ({ login, auth: { isAuthenticated, loading } }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
+        submitted: false
     });
 
     useEffect(() => {
-        setFormData({ email: '', password: '' });
+        setFormData({ email: '', password: '', submitted: false });
     }, [isAuthenticated]);
+
+    let history = useHistory();
 
     const { email, password } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
+        setFormData({...formData, submitted: true});
         e.preventDefault();
-        login(email, password);
+        const loginPromise = login(email, password);
+
+        loginPromise.then((loginState) => {
+            if (!loginState.loggedIn) {
+                setFormData({...formData, submitted: false});
+            }
+
+            if (loginState.loggedIn) {
+                history.goBack();
+            }    
+        });
     };
 
     const LoginForm = (
-        <Fragment>
-            <h1 className="large text-primary">Sign In</h1>
-            <p className="lead"><i className="fas fa-user"></i>Sign Into Your Account</p>
+        <Layout>
+            <h1>Sign In</h1>
+            <p>Sign Into Your Account</p>
             <form className="form" onSubmit={e => onSubmit(e)}>
-            <div className="form-group">
+
+            <div className="form__element">
+                <label id="email-label" htmlFor="email">Email</label>
                 <input 
                 type="email" 
                 placeholder="Email Address" 
@@ -37,7 +55,8 @@ const Login = ({ login, auth: { isAuthenticated, loading } }) => {
                 required
             />
             </div>
-            <div className="form-group">
+            <div className="form__element">
+                <label id="password-label" htmlFor="password">Password</label>
                 <input
                 type="password"
                 placeholder="Password"
@@ -46,9 +65,9 @@ const Login = ({ login, auth: { isAuthenticated, loading } }) => {
                 onChange={e => onChange(e)}
                 />
             </div>
-            <input type="submit" className="btn btn-primary" value="Login" />
+            <button disabled={formData.submitted} className="btn btn-primary" onClick={onSubmit}>Login</button>
             </form>
-        </Fragment>
+        </Layout>
     )
 
     return (

@@ -9,7 +9,6 @@ import {
 // Get profile by username
 export const getProfileByUsername = username => async dispatch => {
     try {
-        console.log('Trying to get the profile of ', username);
         const res = await api.get(`/api/profile/${username}`);
 
         dispatch({
@@ -29,7 +28,6 @@ export const getProfileByUsername = username => async dispatch => {
 // Get current users profile
 export const getCurrentProfile = () => async dispatch => {
     try {
-        console.log('Getting currently logged in user profile');
         const res = await api.get('/api/profile/me');
 
         dispatch({
@@ -48,7 +46,7 @@ export const getCurrentProfile = () => async dispatch => {
 
 
 // Update profile
-export const updateProfile = (formData, history, edit = false) => async dispatch => {
+export const updateProfile = (formData, profile_pic_url, history, edit = false) => async dispatch => {
     try {
         const config = {
             headers: {
@@ -56,7 +54,9 @@ export const updateProfile = (formData, history, edit = false) => async dispatch
             }
         }
 
-        console.log('Updating a profile');
+        if (profile_pic_url) {
+            formData = {...formData, profile_pic_url}
+        }
         const res = await api.post('/api/profile', formData, config);
 
         dispatch({
@@ -64,16 +64,15 @@ export const updateProfile = (formData, history, edit = false) => async dispatch
             payload: res.data
         });
 
+        return { profileUpdated: true };
     } catch (error) {
-        const errors = error.response.data.errors;
-        
-        if (errors) {
-            // errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-        }
+        const errors = error?.response?.data?.errors;
 
         dispatch({
             type: PROFILE_ERROR,
             payload: { msg: error.response.data.msg, status: error.response.status }
         });
+
+        return { profileUpdated: false, errors };
     }
 }

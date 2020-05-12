@@ -13,17 +13,24 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
     const username = user?.username;
     
     const guestLinks = (
-        <li className='navbar__link'>
-        <Link to='/join'>
-            Join
-        </Link>
-        </li>
+        <Fragment>
+            <li className='navbar__link'>
+                <Link to='/join'>
+                    Join
+                </Link>
+            </li>
+            <li className='navbar__link'>
+                <Link to='/login'>
+                    Login
+                </Link>
+            </li>
+        </Fragment>
     )
 
     const navLinks = (
     <Fragment>
         <input id="toggler" className="navbar__toggler" type="checkbox" />
-        <label for="toggler" className="navbar__burger">
+        <label htmlFor="toggler" className="navbar__burger">
             <span><i className="fas fa-bars"></i></span>
         </label>
         <ul className='navbar__links'>

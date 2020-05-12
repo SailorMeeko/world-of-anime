@@ -1,0 +1,27 @@
+.profile-container {
+    max-width: 100%;
+    display: flex;
+}
+
+.profile-info {
+    max-width: 300px;
+}
+
+.profile--pic {
+    max-width: 175px;
+}
+
+.profile--label {
+    background: $label-background;
+    font-size: $m-size;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.profile--text {
+    background: $description-background;
+    font-size: $m-size;
+    padding: 0;
+    margin: 0;
+}

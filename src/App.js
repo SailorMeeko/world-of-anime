@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Profile from './components/profile/Profile';
 import EditProfile from './components/profile/EditProfile';
 import Join from './components/Join';
+import Login from './components/Login';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -50,6 +51,11 @@ const App = () => {
               component = {Profile} />
             
           <Route exact={true} path="/join" component={Join} />
+
+          <Route 
+          exact={true}
+          path="/login"
+          component = {Login} />              
           
           </Switch>          
         </Fragment>
