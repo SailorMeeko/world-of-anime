@@ -34,4 +34,6 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-export default firebase;
+const database = firebase.database();
+
+export { firebase, database as default };

@@ -5,13 +5,19 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Moment from 'react-moment';
 import { getProfileByUsername } from '../../actions/profile';
+import { setNotification} from '../../actions/notification';
 import Spinner from '../layout/Spinner';
+import Image from 'react-image-resizer';
 import Layout from '../layout/Layout';
 
-const Profile = ({ match, auth: { user, loading }, getProfileByUsername, profile: { profile, error } }) => {
+const Profile = ({ match, auth: { user, loading }, getProfileByUsername, setNotification, profile: { profile, error } }) => {
     useEffect(() => {
         getProfileByUsername(match.params.username);
       }, [getProfileByUsername, match.params.username]);
+
+    // useEffect(() => {
+    //     profile && setNotification(profile.user, 'Someone looked at your profile');
+    // }, [profile]);
     
     const isOwnProfile = (profile && profile?.user === user?._id);
 
@@ -23,7 +29,9 @@ const Profile = ({ match, auth: { user, loading }, getProfileByUsername, profile
                 <div className="profile-info">
                     {profile && <Fragment>
                     <p>{match.params.username}'s profile</p>
-                    {profile.profile_pic_url && <img className="profile--pic" src={profile.profile_pic_url} alt={`${match.params.username}'s profile`}/>}
+                    {profile.profile_pic_url && 
+                        <img className="profile--pic" src={profile.profile_pic_url} alt={`${match.params.username}'s profile`}/>
+                    }
                     <p>Joined <Moment format='MMMM Do, YYYY hh:mm A'>{profile.createDate}</Moment></p>
                     </Fragment>
                     }
@@ -82,4 +90,4 @@ const mapStateToProps = state => ({
     profile: state.profile
 });
 
-export default connect(mapStateToProps, { getProfileByUsername })(Profile);
+export default connect(mapStateToProps, { getProfileByUsername, setNotification })(Profile);

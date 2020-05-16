@@ -1,4 +1,5 @@
 import api from '../config/axios';
+import database from '../config/firebase';
 import { setAlert } from './alert';
 import {
     LOGIN_SUCCESS,

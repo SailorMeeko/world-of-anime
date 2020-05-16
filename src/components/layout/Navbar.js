@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
+import NotificationCount from '../layout/NotificationCount';
 
 const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
     const onClick = async e => {
@@ -48,6 +49,9 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
                     <button onClick={e => onClick(e)}>
                         Log out
                     </button>
+                    <Link to={`/notifications`}>
+                        <NotificationCount />
+                    </Link>
                     </Fragment>) : (<Fragment>
                         {guestLinks}
                     </Fragment>)}
