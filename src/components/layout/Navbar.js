@@ -40,6 +40,12 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
                 Home
             </Link>
             </li>
+
+            <li className='navbar__link'>
+            <Link to='/members/search'>
+                Search for Members
+            </Link>
+            </li>            
             { !loading && (
                 <Fragment>
                 {isAuthenticated ? (<Fragment>

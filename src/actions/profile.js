@@ -3,13 +3,15 @@ import api from '../config/axios';
 import {
     GET_PROFILE,
     PROFILE_ERROR,
-    CLEAR_PROFILE
+    CLEAR_PROFILE,
+    SEARCH_MEMBERS
 } from './types';
 
 // Get profile by username
 export const getProfileByUsername = username => async dispatch => {
     try {
         const res = await api.get(`/api/profile/${username}`);
+        console.log('Profile', res.data);
 
         dispatch({
             type: GET_PROFILE,
@@ -46,7 +48,7 @@ export const getCurrentProfile = () => async dispatch => {
 
 
 // Update profile
-export const updateProfile = (formData, profile_pic_url, history, edit = false) => async dispatch => {
+export const updateProfile = (formData, profile_pic, history, edit = false) => async dispatch => {
     try {
         const config = {
             headers: {
@@ -54,8 +56,8 @@ export const updateProfile = (formData, profile_pic_url, history, edit = false) 
             }
         }
 
-        if (profile_pic_url) {
-            formData = {...formData, profile_pic_url}
+        if (profile_pic) {
+            formData = {...formData, profile_pic}
         }
         const res = await api.post('/api/profile', formData, config);
 
@@ -65,6 +67,35 @@ export const updateProfile = (formData, profile_pic_url, history, edit = false) 
         });
 
         return { profileUpdated: true };
+    } catch (error) {
+        const errors = error?.response?.data?.errors;
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: error.response.data.msg, status: error.response.status }
+        });
+
+        return { profileUpdated: false, errors };
+    }
+}
+
+
+// Search members
+export const searchForMembers = (formData) => async dispatch => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const res = await api.post('/api/profile/search', formData, config);
+
+        dispatch({
+            type: SEARCH_MEMBERS,
+            payload: res.data
+        });
+
+        return res.data;
     } catch (error) {
         const errors = error?.response?.data?.errors;
 

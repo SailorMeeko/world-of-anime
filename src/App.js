@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Profile from './components/profile/Profile';
 import EditProfile from './components/profile/EditProfile';
 import Notifications from './components/Notifications';
+import MemberSearch from './components/members/Search';
 import Join from './components/Join';
 import Login from './components/Login';
 
@@ -50,6 +51,11 @@ const App = () => {
           exact={true}
           path="/notifications"
           component = {Notifications} />                   
+
+          <Route 
+          exact={true}
+          path="/members/search"
+          component = {MemberSearch} />                             
 
           <Route 
               exact={true}

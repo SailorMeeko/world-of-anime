@@ -1,25 +1,60 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Moment from 'react-moment';
 import { getProfileByUsername } from '../../actions/profile';
+import { createPostToUserProfile, getUserProfilePosts } from '../../actions/post';
 import { setNotification} from '../../actions/notification';
+import Post from './Post';
 import Spinner from '../layout/Spinner';
-import Image from 'react-image-resizer';
 import Layout from '../layout/Layout';
 
-const Profile = ({ match, auth: { user, loading }, getProfileByUsername, setNotification, profile: { profile, error } }) => {
+const Profile = ({ match, 
+                    auth: { user, loading }, 
+                    getProfileByUsername, 
+                    createPostToUserProfile, 
+                    getUserProfilePosts, 
+                    setNotification, 
+                    profile: { profile, error },
+                    post: { posts } }) => {
     useEffect(() => {
         getProfileByUsername(match.params.username);
       }, [getProfileByUsername, match.params.username]);
+
+      useEffect(() => {
+        if (profile) {
+            getUserProfilePosts(profile._id);
+        }
+      }, [getUserProfilePosts, profile]);      
+
+    const [formData, setFormData] = useState({
+        text: ''
+    });
+    
+    let profilePicUrl = null;
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const { text } = formData;
+
+    const onSubmitNewPost = async e => {
+        e.preventDefault();
+        createPostToUserProfile(formData, profile._id);
+        setFormData({text:''});
+    };    
 
     // useEffect(() => {
     //     profile && setNotification(profile.user, 'Someone looked at your profile');
     // }, [profile]);
     
     const isOwnProfile = (profile && profile?.user === user?._id);
+    if (profile && profile?.profile_pic?.url_175) {
+        profilePicUrl = profile?.profile_pic?.url_175;
+    } else if (profile && profile?.profile_pic?.url_full) {
+        profilePicUrl = profile?.profile_pic?.url_full;
+    }
 
     return (
         <Layout>
@@ -29,8 +64,8 @@ const Profile = ({ match, auth: { user, loading }, getProfileByUsername, setNoti
                 <div className="profile-info">
                     {profile && <Fragment>
                     <p>{match.params.username}'s profile</p>
-                    {profile.profile_pic_url && 
-                        <img className="profile--pic" src={profile.profile_pic_url} alt={`${match.params.username}'s profile`}/>
+                    {profilePicUrl && 
+                        <img className="profile--pic" src={profilePicUrl} alt={`${match.params.username}'s profile`}/>
                     }
                     <p>Joined <Moment format='MMMM Do, YYYY hh:mm A'>{profile.createDate}</Moment></p>
                     </Fragment>
@@ -70,7 +105,29 @@ const Profile = ({ match, auth: { user, loading }, getProfileByUsername, setNoti
         
                 </div>
 
+                <div className="profile-content">
 
+                    <div className="profile-action-box">
+                        <form>
+                            <textarea
+                                name="text"
+                                rows="4"
+                                value={text}
+                                onChange={e => onChange(e)
+                                }
+                            />
+
+                            <p><button onClick={e => onSubmitNewPost(e)}>Add new comment</button></p>
+                        </form>
+                    </div>
+
+                    {posts && <div className="profile-comments-box">
+                        {posts.map(post => (
+                            <Post key={post._id} post={post} />
+                        ))}
+                    </div>}            
+
+                </div>
             </div>}
 
             {error.status === 400 && <Fragment>
@@ -82,12 +139,16 @@ const Profile = ({ match, auth: { user, loading }, getProfileByUsername, setNoti
 
 Profile.propTypes = {
     getProfileByUsername: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired
+    createPostToUserProfile: PropTypes.func.isRequired,
+    getUserProfilePosts: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired,
+    posts: PropTypes.object
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    profile: state.profile
+    profile: state.profile,
+    post: state.post
 });
 
-export default connect(mapStateToProps, { getProfileByUsername, setNotification })(Profile);
+export default connect(mapStateToProps, { getProfileByUsername, createPostToUserProfile, getUserProfilePosts, setNotification })(Profile);

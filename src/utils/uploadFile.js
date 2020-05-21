@@ -1,4 +1,4 @@
-import firebase from '../config/firebase';
+import { firebase } from '../config/firebase';
 
 async function uploadFile(file, location) {
     const filename = file.name;
@@ -14,7 +14,9 @@ async function uploadFile(file, location) {
             },
             function complete() {
                 uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                resolve(downloadURL)
+                resolve({
+                    url_full: downloadURL
+                })
             });
         });
     });

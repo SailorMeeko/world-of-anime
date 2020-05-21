@@ -3,7 +3,8 @@ import {
     GET_PROFILES,
     PROFILE_ERROR,
     CLEAR_PROFILE,
-    UPDATE_PROFILE
+    UPDATE_PROFILE,
+    SEARCH_MEMBERS
 } from '../actions/types';
 
 const initialState = {
@@ -26,6 +27,7 @@ export default function(state = initialState, action) {
             }
 
         case GET_PROFILES:
+        case SEARCH_MEMBERS:
             return {
                 ...state,
                 profiles: payload,

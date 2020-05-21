@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { getCurrentProfile, updateProfile } from '../../actions/profile';
+import { createImage } from '../../actions/image';
 import uploadFile from '../../utils/uploadFile';
 import moment from 'moment';
 import Spinner from '../layout/Spinner';
 import Layout from '../layout/Layout';
 
-const Profile = ({ auth: { user, loading }, getCurrentProfile, updateProfile, profile: { profile, error } }) => {
-    let profilePicUrl = null;
+const Profile = ({ auth: { user, loading }, getCurrentProfile, updateProfile, createImage, profile: { profile, error } }) => {
+    let profileImageRef = null;
 
     useEffect(() => {
         getCurrentProfile();
@@ -49,10 +50,12 @@ const Profile = ({ auth: { user, loading }, getCurrentProfile, updateProfile, pr
     const onSubmit = async e => {
         e.preventDefault();
         if (profilePicFileInput.current.files[0]) {
-            profilePicUrl = await uploadFile(profilePicFileInput.current.files[0], `user/${user._id}/images`);
+            let profilePic = await uploadFile(profilePicFileInput.current.files[0], `user/${user._id}/images`);
+            console.log('About to try to create image', profilePic);
+            profileImageRef = await createImage(profilePic);
         }
 
-        const loginPromise = updateProfile(formData, profilePicUrl);
+        const loginPromise = updateProfile(formData, profileImageRef._id);
 
         loginPromise.then((profileState) => {
             if (profileState.profileUpdated) {
@@ -141,6 +144,7 @@ const Profile = ({ auth: { user, loading }, getCurrentProfile, updateProfile, pr
 Profile.propTypes = {
     getCurrentProfile: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
+    createImage: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired
 }
 
@@ -149,4 +153,4 @@ const mapStateToProps = state => ({
     profile: state.profile
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, updateProfile })(Profile);
+export default connect(mapStateToProps, { getCurrentProfile, updateProfile, createImage })(Profile);

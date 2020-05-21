@@ -1,0 +1,23 @@
+.post-container {
+    display: flex;
+    margin: $s-size;
+    padding: $s-size;
+    background-color: $off-white;
+    flex-direction: column;
+}
+
+.post-content-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.post-byline {
+    font-size: $font-size-xsmall;
+    color: $grey;
+    margin-left: auto;
+}
+
+.post-profile-pic {
+    max-width: 80px;
+    padding-right: $s-size;
+}
