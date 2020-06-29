@@ -11,6 +11,7 @@ const initialState = {
     profile: null,
     profiles: [],
     loading: true,
+    posts: [],
     error: {}
 };
 

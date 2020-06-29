@@ -10,8 +10,8 @@ import {
 // Get profile by username
 export const getProfileByUsername = username => async dispatch => {
     try {
+
         const res = await api.get(`/api/profile/${username}`);
-        console.log('Profile', res.data);
 
         dispatch({
             type: GET_PROFILE,
@@ -21,7 +21,7 @@ export const getProfileByUsername = username => async dispatch => {
     } catch (error) {
         dispatch({
             type: PROFILE_ERROR,
-            payload: { msg: error.response.data.msg, status: error.response.status }
+            payload: { msg: error }
         });
     }
 }
@@ -41,7 +41,7 @@ export const getCurrentProfile = () => async dispatch => {
         dispatch({ type: CLEAR_PROFILE });
         dispatch({
             type: PROFILE_ERROR,
-            payload: { msg: error.response.data.msg, status: error.response.status }
+            payload: { msg: error }
         });
     }
 }
@@ -72,7 +72,7 @@ export const updateProfile = (formData, profile_pic, history, edit = false) => a
 
         dispatch({
             type: PROFILE_ERROR,
-            payload: { msg: error.response.data.msg, status: error.response.status }
+            payload: { msg: error }
         });
 
         return { profileUpdated: false, errors };
@@ -101,7 +101,7 @@ export const searchForMembers = (formData) => async dispatch => {
 
         dispatch({
             type: PROFILE_ERROR,
-            payload: { msg: error.response.data.msg, status: error.response.status }
+            payload: { msg: error }
         });
 
         return { profileUpdated: false, errors };

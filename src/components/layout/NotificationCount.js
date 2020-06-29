@@ -25,7 +25,7 @@ const NotificationCount = ({ auth: { user } }) => {
     return (
         <Fragment>
             <span className="notificationCount">
-                {notificationCount >= 0 && notificationCount}
+                {notificationCount >= 0 && notificationCount} Notifications
             </span>
         </Fragment>
     )

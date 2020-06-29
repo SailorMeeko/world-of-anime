@@ -6,9 +6,21 @@
     flex-direction: column;
 }
 
+.post-container-reply {
+    @extend .post-container;
+    width: 70%;
+    background-color: darken($off-white, 20%);
+    margin-left: auto;
+}
+
 .post-content-container {
     display: flex;
     flex-direction: row;
+}
+
+.post-content-container-reply {
+    @extend .post-content-container;
+    background-color: darken($off-white, 20%);
 }
 
 .post-byline {
@@ -20,4 +32,8 @@
 .post-profile-pic {
     max-width: 80px;
     padding-right: $s-size;
+}
+
+.comment-button {
+    margin-left: auto;
 }

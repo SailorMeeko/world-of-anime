@@ -6,6 +6,7 @@ import moment from 'moment';
 import Moment from 'react-moment';
 import { getProfileByUsername } from '../../actions/profile';
 import { createPostToUserProfile, getUserProfilePosts } from '../../actions/post';
+import { sendFriendRequest, updateNumFriendRequests, getFriendshipStatus, getFriendRequests } from '../../actions/friendship';
 import { setNotification} from '../../actions/notification';
 import Post from './Post';
 import Spinner from '../layout/Spinner';
@@ -17,17 +18,39 @@ const Profile = ({ match,
                     createPostToUserProfile, 
                     getUserProfilePosts, 
                     setNotification, 
+                    sendFriendRequest,
+                    updateNumFriendRequests,
+                    getFriendshipStatus,
                     profile: { profile, error },
                     post: { posts } }) => {
+
+    const [friendshipStatus, setFriendshipStatus] = useState(null);
+
+    useEffect(() => {
+        setFriendshipStatus(null);
+    }, []);
+                        
     useEffect(() => {
         getProfileByUsername(match.params.username);
       }, [getProfileByUsername, match.params.username]);
 
-      useEffect(() => {
+    useEffect(() => {
         if (profile) {
             getUserProfilePosts(profile._id);
         }
-      }, [getUserProfilePosts, profile]);      
+    }, [profile]);
+
+    useEffect(() => {
+        setFriendshipStatus(null);
+        if (profile && user) {
+            const friendshipStatusPromise = getFriendshipStatus(user._id, profile.user);
+            friendshipStatusPromise.then((res) => {
+                if (res) {
+                    setFriendshipStatus(res.status);
+                }
+            });
+        }
+    }, [profile]);
 
     const [formData, setFormData] = useState({
         text: ''
@@ -41,20 +64,32 @@ const Profile = ({ match,
 
     const onSubmitNewPost = async e => {
         e.preventDefault();
-        createPostToUserProfile(formData, profile._id);
-        setFormData({text:''});
-    };    
+        const newPostPromise = createPostToUserProfile(formData, profile._id);
 
-    // useEffect(() => {
-    //     profile && setNotification(profile.user, 'Someone looked at your profile');
-    // }, [profile]);
-    
+        newPostPromise.then((newPost) => {
+            setNotification(profile.user, `u:${user.username} posted a pc:${profile.username}:${newPost.commentId} on your p:profile`);
+        });
+        
+        setFormData({text:''});
+    };
+
+    const onSubmitFriendshipRequest = async e => {
+        e.preventDefault();
+        
+        const newFriendRequest = sendFriendRequest(profile.user);
+        newFriendRequest.then(() => {
+            updateNumFriendRequests(profile.user);
+        });
+    }
+
     const isOwnProfile = (profile && profile?.user === user?._id);
     if (profile && profile?.profile_pic?.url_175) {
         profilePicUrl = profile?.profile_pic?.url_175;
     } else if (profile && profile?.profile_pic?.url_full) {
         profilePicUrl = profile?.profile_pic?.url_full;
     }
+
+    
 
     return (
         <Layout>
@@ -107,6 +142,25 @@ const Profile = ({ match,
 
                 <div className="profile-content">
 
+                    {!isOwnProfile && loading === false && friendshipStatus === 'no friendship' && 
+                        <div className="friendship-box">
+                            Friendship: {friendshipStatus}
+                            <button onClick={e => onSubmitFriendshipRequest(e)}>Send a Friend Request to {profile.username}</button>
+                        </div>
+                    }
+
+                    {!isOwnProfile && loading === false && friendshipStatus === 'requested' && 
+                        <div className="friendship-box">
+                            You have asked to be friends with {profile.username}
+                        </div>
+                    }
+
+                    {!isOwnProfile && loading === false && friendshipStatus === 'requestee' && 
+                        <div className="friendship-box">
+                            {profile.username} has asked you to be friends.  Check out your <Link to='/friend_requests'>friend requests</Link>.
+                        </div>
+                    }                                        
+
                     <div className="profile-action-box">
                         <form>
                             <textarea
@@ -121,9 +175,9 @@ const Profile = ({ match,
                         </form>
                     </div>
 
-                    {posts && <div className="profile-comments-box">
+                    {posts.length > 0 && <div className="profile-comments-box">
                         {posts.map(post => (
-                            <Post key={post._id} post={post} />
+                            <Post key={post._id} post={post} profile={profile} />
                         ))}
                     </div>}            
 
@@ -151,4 +205,11 @@ const mapStateToProps = state => ({
     post: state.post
 });
 
-export default connect(mapStateToProps, { getProfileByUsername, createPostToUserProfile, getUserProfilePosts, setNotification })(Profile);
+export default connect(mapStateToProps, { 
+    getProfileByUsername, 
+    createPostToUserProfile, 
+    getUserProfilePosts, 
+    setNotification,
+    sendFriendRequest,
+    updateNumFriendRequests,
+    getFriendshipStatus })(Profile);

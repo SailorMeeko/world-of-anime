@@ -10,7 +10,7 @@ export const createImage = (image) => async dispatch => {
         const formData = {
             url_full: image.url_full
         }
-        console.log('Creating image', formData);
+
         const res = await api.post(`/api/image`, formData);
 
         if (res) {

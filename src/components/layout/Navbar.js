@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import NotificationCount from '../layout/NotificationCount';
+import FriendRequestCount from '../layout/FriendRequestCount';
 
 const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
     const onClick = async e => {
@@ -58,6 +59,9 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
                     <Link to={`/notifications`}>
                         <NotificationCount />
                     </Link>
+                    <Link to={`/friend_requests`}>
+                        <FriendRequestCount />
+                    </Link>                    
                     </Fragment>) : (<Fragment>
                         {guestLinks}
                     </Fragment>)}
