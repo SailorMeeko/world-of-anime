@@ -9,6 +9,7 @@ import Notifications from './components/Notifications';
 import FriendRequests from './components/members/FriendRequests';
 import MemberSearch from './components/members/Search';
 import Thread from './components/profile/Thread';
+import Friends from './components/profile/Friends';
 import Join from './components/Join';
 import Login from './components/Login';
 
@@ -18,14 +19,6 @@ import store from './store';
 
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
-
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
-
-// if (cookies.get('token')) {
-//   setAuthToken(cookies.get('token'));
-// }
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -77,6 +70,11 @@ const App = () => {
               exact={true}
               path="/profile/:username/thread/:id"
               component = {Thread} />
+
+          <Route
+              exact={true}
+              path="/profile/:username/friends"
+              component = {Friends} />              
             
           <Route exact={true} path="/join" component={Join} />
 

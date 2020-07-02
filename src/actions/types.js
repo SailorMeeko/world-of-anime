@@ -25,6 +25,3 @@ export const CLEAR_POSTS = 'CLEAR_POSTS';
 export const POST_ERROR = 'POST_ERROR';
 export const GET_POST = 'GET_POST';
 export const GET_POSTS = 'GET_POSTS';
-export const CREATE_IMAGE = 'CREATE_IMAGE';
-export const SEND_FRIEND_REQUEST = 'SEND_FRIEND_REQUEST';
-export const SET_FRIEND_REQUESTS = 'SET_FRIEND_REQUESTS';

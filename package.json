@@ -21,7 +21,6 @@
     "react-string-replace": "^0.4.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "universal-cookie": "^4.0.3",
     "uuidv4": "^6.0.8"
   },
   "scripts": {

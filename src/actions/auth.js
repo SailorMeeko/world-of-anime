@@ -1,5 +1,4 @@
 import api from '../config/axios';
-import database from '../config/firebase';
 import { setAlert } from './alert';
 import {
     LOGIN_SUCCESS,
@@ -11,17 +10,10 @@ import {
     REGISTER_FAIL,
     CLEAR_PROFILE
 } from './types';
-import Cookies from 'universal-cookie';
 import setAuthToken from '../utils/setAuthToken';
-
-const cookies = new Cookies();
 
 // Load User
 export const loadUser = () => async dispatch => {
-    // if (cookies.get('token')) {
-    //     setAuthToken(cookies.get('token'));
-    // }
-
     if (localStorage.token) {
         setAuthToken(localStorage.token);
       }

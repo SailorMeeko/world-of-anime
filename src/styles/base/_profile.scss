@@ -50,6 +50,34 @@
         max-width: 80px;
     }
 }
+
+.profile-head {
+    background-color: $light-brown;
+    border: solid 1px $medium-brown;
+    border-radius: 0.5em;
+    padding: 1em;
+    display: flex;
+
+    .profile--pic-small {
+        align-self: flex-start;
+        max-width: 80px;
+    }
+
+    .profile-head-message {
+        font-size: $font-size-large;
+    }
+
+    .profile-head-secondary-message {
+        font-size: $font-size-small;
+        color: $grey;
+        flex-direction: row;
+    }
+}
+
+.profile-head-content {
+    padding-left: 1em;
+}
+
 .profile--text {
     background: $description-background;
     font-size: $m-size;

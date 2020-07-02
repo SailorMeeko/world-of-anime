@@ -1,10 +1,5 @@
 import api from '../config/axios';
 
-import {
-    CREATE_IMAGE
-} from './types';
-
-// Get profile by username
 export const createImage = (image) => async dispatch => {
     try {
         const formData = {

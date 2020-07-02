@@ -8,11 +8,7 @@ import {
     LOGOUT,
     ACCOUNT_DELETED
 } from '../actions/types';
-import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
-
-//     token: cookies.get('token'),
 const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
@@ -33,7 +29,6 @@ export default function(state = initialState, action) {
             }
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-//            cookies.set('token', payload.token, { path: '/' });
             localStorage.setItem('token', payload.token);
             return {
                 ...state,
@@ -47,7 +42,6 @@ export default function(state = initialState, action) {
         case LOGIN_FAIL:
         case LOGOUT:
         case ACCOUNT_DELETED:
-//            cookies.remove('token', { path: '/' });
             localStorage.removeItem('token');
             return {
                 ...state,

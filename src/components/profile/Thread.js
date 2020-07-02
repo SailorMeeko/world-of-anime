@@ -1,9 +1,6 @@
-import React, {Fragment, useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, {Fragment, useEffect} from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import Moment from 'react-moment';
 import Spinner from '../layout/Spinner';
 import ProfileHead from '../profile/ProfileHead';
 import Post from '../profile/Post';

@@ -18,7 +18,7 @@ const MemberSearch = ({ searchForMembers }) => {
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const {username, name, about_me, favorite_anime, favorite_movies} = formData;
+    const {username, name, favorite_anime, favorite_movies} = formData;
 
     const onSubmit = async e => {
         e.preventDefault();

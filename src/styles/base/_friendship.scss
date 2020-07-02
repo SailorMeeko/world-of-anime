@@ -1,3 +1,21 @@
 .friendship-box {
     width: 100%;
 }
+
+.friend-request-container {
+    display: flex;
+    margin: $s-size;
+    padding: $s-size;
+    background-color: $off-white;
+    flex-direction: row;
+}
+
+.friend-request-profile--pic {
+    max-width: 80px;
+    padding-right: $s-size;
+}
+
+.friend-request-content-container {
+    display: flex;
+    flex-direction: column;
+}

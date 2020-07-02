@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ProfileBasic = ({ username, profile_pic }) => {
+const FriendsBasic = ({ username, profile_pic }) => {
     let profilePicUrl = null;
     if (profile_pic?.url_80) {
         profilePicUrl = profile_pic?.url_80;
@@ -19,8 +19,8 @@ const ProfileBasic = ({ username, profile_pic }) => {
     )
 };
 
-ProfileBasic.propTypes = {
+FriendsBasic.propTypes = {
 
 }
 
-export default ProfileBasic;
+export default FriendsBasic;

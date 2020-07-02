@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 
-const ProfileHead = ({ profile, msg }) => {
+const ProfileHead = ({ profile, msg, secondaryMsg }) => {
     let profilePicUrl = null;
 
     if (profile && profile?.profile_pic?.url_175) {
@@ -10,10 +10,13 @@ const ProfileHead = ({ profile, msg }) => {
     }
 
     return (
-        <Fragment>
-            <img className="profile--pic" src={profilePicUrl} alt={`${profile.username}'s profile`}/>
-            {msg}
-        </Fragment>
+        <div className="profile-head">
+            <img className="profile--pic-small" src={profilePicUrl} alt={`${profile.username}'s profile`} />
+            <div className="profile-head-content">
+                <div className="profile-head-message">{msg}</div>
+                <div className="profile-head-secondary-message">{secondaryMsg}</div>
+            </div>
+        </div>
     )
 };
 

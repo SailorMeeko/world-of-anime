@@ -2,8 +2,8 @@ import React, {Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Layout from '../layout/Layout';
-import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
+import FriendRequest from '../members/FriendRequest';
+import Spinner from '../layout/Spinner';
 import { getFriendRequests, updateNumFriendRequests } from '../../actions/friendship';
 
 const FriendRequests = ({ auth: { user, loading }, 
@@ -16,24 +16,32 @@ const FriendRequests = ({ auth: { user, loading },
         if (user) {
             updateNumFriendRequests(user._id);
         }
-    }, [user]);
+    }, [user, updateNumFriendRequests]);
 
     useEffect(() => {
         const allRequests = getFriendRequests(user);
         allRequests.then((req) => {
             setRequests(req.requests);
         });
-    }, [user]);
+    }, [user, getFriendRequests]);
 
     return (
         <Layout>
             <Fragment>
                 <div>Friend Requests</div>
-                    {requests && <div className="notification">
-                    {requests.map(request => (
-                        <Fragment>{request._id}</Fragment>
-                    ))}
-            </div>}  
+                    {!requests && <Spinner />}
+                    {requests && 
+                    <div className="notification">
+                        {requests.map(request => (
+                            <FriendRequest key={request._id} request={request} />
+                        ))}
+                    </div>
+                    }
+                    {requests && requests.length === 0 &&
+                        <Fragment>
+                            You currently have no friend requests.
+                        </Fragment>
+                    }
             </Fragment>
         </Layout>
     );

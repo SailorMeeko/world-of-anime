@@ -6,7 +6,7 @@ import moment from 'moment';
 import Moment from 'react-moment';
 import { getProfileByUsername } from '../../actions/profile';
 import { createPostToUserProfile, getUserProfilePosts } from '../../actions/post';
-import { sendFriendRequest, updateNumFriendRequests, getFriendshipStatus, getFriendRequests } from '../../actions/friendship';
+import { sendFriendRequest, updateNumFriendRequests, getFriendshipStatus } from '../../actions/friendship';
 import { setNotification} from '../../actions/notification';
 import Post from './Post';
 import Spinner from '../layout/Spinner';
@@ -38,7 +38,7 @@ const Profile = ({ match,
         if (profile) {
             getUserProfilePosts(profile._id);
         }
-    }, [profile]);
+    }, [profile, getUserProfilePosts]);
 
     useEffect(() => {
         setFriendshipStatus(null);
@@ -50,7 +50,7 @@ const Profile = ({ match,
                 }
             });
         }
-    }, [profile]);
+    }, [profile, getFriendshipStatus, user]);
 
     const [formData, setFormData] = useState({
         text: ''
@@ -159,7 +159,19 @@ const Profile = ({ match,
                         <div className="friendship-box">
                             {profile.username} has asked you to be friends.  Check out your <Link to='/friend_requests'>friend requests</Link>.
                         </div>
-                    }                                        
+                    }
+
+                    {!isOwnProfile && loading === false && friendshipStatus === 'rejected' && 
+                    <div className="friendship-box">
+                        {profile.username} has rejected your friend request.
+                    </div>
+                    }
+
+                    {!isOwnProfile && loading === false && friendshipStatus === 'friends' && 
+                    <div className="friendship-box">
+                        {profile.username} is your friend.
+                    </div>
+                }                    
 
                     <div className="profile-action-box">
                         <form>

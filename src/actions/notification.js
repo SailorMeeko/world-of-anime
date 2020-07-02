@@ -1,8 +1,7 @@
 import database from '../config/firebase';
-import { SET_NOTIFICATION, CHECK_NOTIFICATIONS } from './types';
+import {SET_NOTIFICATION} from './types';
 
 export const setNotification = (user, msg, notification_type = 'info') => async dispatch => {
-    console.log('Setting notification of ', msg);
     const currentCount = await database.ref(`users/${user}/unread_notification_count`).once('value').then((snapshot) => snapshot.val()) || 0;
     return database.ref(`users/${user}/notifications`).push({
         notification_type,

@@ -1,8 +1,7 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
 
 const reactStringReplace = require('react-string-replace');
 
