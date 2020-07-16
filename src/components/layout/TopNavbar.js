@@ -1,12 +1,12 @@
 import React, {Fragment} from 'react';
+
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import NotificationCount from '../layout/NotificationCount';
-import FriendRequestCount from '../layout/FriendRequestCount';
 
-const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
+const TopNavbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
     const onClick = async e => {
         e.preventDefault();
         logout();
@@ -53,18 +53,20 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
                     <li className='navbar__link'>
                         <Link to={`/profile/${username}`}>My Profile</Link>
                     </li>
+                    <li className='navbar__link'>
+                        <Link to={`/notifications`}>
+                            <NotificationCount />
+                        </Link>
+                    </li>
+                    <Link to={`/friend_requests`}>
+                        
+                    </Link>
                     <button onClick={e => onClick(e)}>
                         Log out
-                    </button>
-                    <Link to={`/notifications`}>
-                        <NotificationCount />
-                    </Link>
-                    <Link to={`/friend_requests`}>
-                        <FriendRequestCount />
-                    </Link>                    
+                    </button>                    
                     </Fragment>) : (<Fragment>
                         {guestLinks}
-                    </Fragment>)}
+                    </Fragment>)}                   
                 </Fragment>
             ) }
         </ul>
@@ -80,7 +82,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
     )
 };
 
-Navbar.propTypes = {
+TopNavbar.propTypes = {
     auth: PropTypes.object,
     logout: PropTypes.func.isRequired
 }
@@ -89,4 +91,4 @@ const mapStateToProps = state => ({
     auth: state.auth,
 })
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logout })(TopNavbar);

@@ -19,3 +19,11 @@ export const setNotification = (user, msg, notification_type = 'info') => async 
         });
     });
 }
+
+
+export const resetNotificationCount = (user) => async dispatch => {
+    console.log(user);
+    return database.ref(`users/${user}`).update({
+        unread_notification_count: 0
+    });
+}

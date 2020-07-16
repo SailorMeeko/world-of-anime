@@ -38,7 +38,6 @@ export const getCurrentProfile = () => async dispatch => {
         });
 
     } catch (error) {
-        dispatch({ type: CLEAR_PROFILE });
         dispatch({
             type: PROFILE_ERROR,
             payload: { msg: error }
@@ -106,4 +105,23 @@ export const searchForMembers = (formData) => async dispatch => {
 
         return { profileUpdated: false, errors };
     }
+}
+
+
+// Retrieve new members
+export const getNewMembers = () => async dispatch => {
+    try {
+        console.log('Getting new members');
+        const res = await api.get(`/api/users/recent`);
+
+        return res.data;
+    } catch (error) {
+
+    }
+}
+
+
+// Clear profile
+export const clearProfile = () => async dispatch => {
+    dispatch({ type: CLEAR_PROFILE });
 }

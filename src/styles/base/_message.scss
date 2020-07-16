@@ -1,4 +1,4 @@
-.post-container {
+.message-container {
     display: flex;
     margin: $s-size;
     padding: $s-size;
@@ -6,34 +6,42 @@
     flex-direction: column;
 }
 
-.post-container-reply {
+.message-container-reply {
     @extend .post-container;
     width: 85%;
     background-color: darken($off-white, 10%);
     margin-left: auto;
 }
 
-.post-content-container {
+.message-content-container {
     display: flex;
     flex-direction: row;
 }
 
-.post-content-container-reply {
-    @extend .post-content-container;
+.message-subject {
+    font-weight: 600;
+}
+
+.message-content {
+    white-space: pre-wrap;  
+}
+
+.message-content-container-reply {
+    @extend .message-content-container;
     background-color: darken($off-white, 10%);
 }
 
-.post-byline {
+.message-byline {
     font-size: $font-size-xsmall;
     color: $grey;
     margin-left: auto;
 }
 
-.post-profile-pic {
+.message-profile-pic {
     max-width: 80px;
     padding-right: $s-size;
 }
 
-.comment-button {
+.message-button {
     margin-left: auto;
 }

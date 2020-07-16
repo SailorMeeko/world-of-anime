@@ -97,6 +97,26 @@ export const login = (email, password) => async dispatch => {
 }
 
 
+// Forgot Password
+export const forgotPassword = (email) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const body = JSON.stringify({ email });
+
+    try {
+        const res = await api.post(`/api/users/forgot-password`, body, config);
+
+        return { emailSent: true };
+    } catch (error) {
+        return { emailSent: false };
+    }
+}
+
+
 // Logout / Clear Profile
 export const logout = () => async dispatch => {
     dispatch({ type: CLEAR_PROFILE });

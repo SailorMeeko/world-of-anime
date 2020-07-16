@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link, Redirect } from 'react-router-dom';
 import { login } from '../actions/auth';
 import Layout from './layout/Layout';
 
@@ -67,6 +67,10 @@ const Login = ({ login, auth: { isAuthenticated, loading } }) => {
             </div>
             <button disabled={formData.submitted} className="btn btn-primary" onClick={onSubmit}>Login</button>
             </form>
+
+            <Link to='/login/forgot'>
+                Forgot password?
+            </Link>
         </Layout>
     )
 
@@ -74,9 +78,7 @@ const Login = ({ login, auth: { isAuthenticated, loading } }) => {
         <Fragment>
             { !loading && (
                 <Fragment>
-                {isAuthenticated ? (<Fragment>
-
-                    </Fragment>) : (<Fragment>
+                {isAuthenticated ? (<Redirect to={`/`} />) : (<Fragment>
                         {LoginForm}
                     </Fragment>)}
                 </Fragment>

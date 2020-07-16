@@ -14,6 +14,7 @@ const Post = ({
                         avatar: { url_full }
                     } 
                 },
+                auth: { isAuthenticated, loading },
                 profile,
                 createReplyToPost,
                 setNotification
@@ -35,9 +36,9 @@ const Post = ({
         e.preventDefault();
         const newReplyPromise = createReplyToPost(formData, _id);
 
-        newReplyPromise.then((newPost) => {
+        newReplyPromise.then((post) => {
             // TODO - Send this to everyone on this thread
-            setNotification(profile.user, `u:${username} posted a pr:${profile.username}:${_id} to a comment on your p:profile`);
+            setNotification(profile.user, `u:${post.newPost.comments[0].user.username} posted a pr:${profile.username}:${_id} to a comment on your p:profile`);
         });
 
         setFormData({replyText:''});
@@ -87,7 +88,7 @@ const Post = ({
                     </form>
                 </div>}
 
-            {showSetupReplyButton && <button className="post-container comment-button" key={_id} onClick={e => setupReply(e)}>Post a reply</button>}
+            {isAuthenticated && showSetupReplyButton && <button className="post-container comment-button" key={_id} onClick={e => setupReply(e)}>Post a reply</button>}
 
         </Fragment>        
     );
@@ -95,7 +96,12 @@ const Post = ({
 
 Post.propTypes = {
     post: PropTypes.object.isRequired,
+    auth: PropTypes.object,
     createReplyToPost: PropTypes.func.isRequired
 }
 
-export default connect(null, { createReplyToPost, setNotification })(Post);
+const mapStateToProps = state => ({
+    auth: state.auth
+  });
+
+export default connect(mapStateToProps, { createReplyToPost, setNotification })(Post);

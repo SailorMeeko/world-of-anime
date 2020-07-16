@@ -39,8 +39,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 error: payload,
-                loading: false,
-                profile: null
+                loading: false
             }
 
         case CLEAR_PROFILE:
@@ -48,7 +47,7 @@ export default function(state = initialState, action) {
                 ...state,
                 profile: null,
                 repos: [],
-                loading: false
+                loading: true
             }
 
         default:

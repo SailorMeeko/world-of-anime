@@ -6,12 +6,15 @@ import Home from './components/Home';
 import Profile from './components/profile/Profile';
 import EditProfile from './components/profile/EditProfile';
 import Notifications from './components/Notifications';
+import PrivateMessages from './components/PrivateMessages';
+import PrivateMessage from './components/PrivateMessage';
 import FriendRequests from './components/members/FriendRequests';
 import MemberSearch from './components/members/Search';
 import Thread from './components/profile/Thread';
 import Friends from './components/profile/Friends';
 import Join from './components/Join';
 import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -56,6 +59,16 @@ const App = () => {
           path="/friend_requests"
           component = {FriendRequests} />
 
+          <Route
+          exact={true}
+          path="/pm"
+          component = {PrivateMessages} />
+          
+          <Route
+          exact={true}
+          path="/pm/:id"
+          component = {PrivateMessage} />          
+
           <Route 
           exact={true}
           path="/members/search"
@@ -81,7 +94,12 @@ const App = () => {
           <Route 
           exact={true}
           path="/login"
-          component = {Login} />              
+          component = {Login} />
+
+          <Route
+          exact={true}
+          path="/login/forgot"
+          component = {ForgotPassword} />
           
           </Switch>          
         </Fragment>

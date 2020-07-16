@@ -1,0 +1,49 @@
+.profile-navbar {
+    max-width: 100rem;
+    background-color: $white;
+    margin: 0 auto;
+    padding: $xs-size $xs-size;
+    height: $xl-size;
+    
+    @media (min-width: $desktop-breakpoint - .01rem) {
+        height: 100%;
+    }
+}
+
+.profile-navbar__links {
+    width: 100%;
+    transition: all .2s;
+    list-style: none;
+    text-align: left;
+
+    @media (min-width: $desktop-breakpoint - .01rem) {
+        all: unset;
+        list-style: none;
+    }
+}
+
+.profile-navbar__link {
+    margin-bottom: $s-size;
+    margin-left: $s-size;
+    a {
+        color: $black;
+        text-decoration: none;
+        font-size: $font-size-large;
+
+        @media (min-width: $desktop-breakpoint - .01rem) {
+            color: $light-grey;
+        }
+    }
+    a:hover {
+        color: $light-grey;
+
+        @media (min-width: $desktop-breakpoint - .01rem) {
+            color: $dark-grey;
+        }
+    }
+
+    @media (min-width: $desktop-breakpoint - .01rem) {
+        margin-bottom: 0;
+        margin-right: 16px;
+    }
+}

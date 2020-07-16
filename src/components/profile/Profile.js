@@ -4,30 +4,36 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Moment from 'react-moment';
-import { getProfileByUsername } from '../../actions/profile';
+import { clearProfile, getProfileByUsername } from '../../actions/profile';
 import { createPostToUserProfile, getUserProfilePosts } from '../../actions/post';
+import { createMessageToUser } from '../../actions/message';
 import { sendFriendRequest, updateNumFriendRequests, getFriendshipStatus } from '../../actions/friendship';
 import { setNotification} from '../../actions/notification';
 import Post from './Post';
 import Spinner from '../layout/Spinner';
 import Layout from '../layout/Layout';
+import ProfileNavbar from './ProfileNavbar';
 
 const Profile = ({ match, 
-                    auth: { user, loading }, 
+                    auth: { user }, 
+                    clearProfile,
                     getProfileByUsername, 
                     createPostToUserProfile, 
+                    createMessageToUser,
                     getUserProfilePosts, 
                     setNotification, 
                     sendFriendRequest,
                     updateNumFriendRequests,
                     getFriendshipStatus,
-                    profile: { profile, error },
+                    profile: { profile, loading, error },
                     post: { posts } }) => {
 
     const [friendshipStatus, setFriendshipStatus] = useState(null);
+    const [showCommentBox, setShowCommentBox] = useState(false);
+    const [showPrivateMessageBox, setShowPrivateMessageBox] = useState(false);
 
     useEffect(() => {
-        setFriendshipStatus(null);
+        setFriendshipStatus(null);   
     }, []);
                         
     useEffect(() => {
@@ -53,14 +59,15 @@ const Profile = ({ match,
     }, [profile, getFriendshipStatus, user]);
 
     const [formData, setFormData] = useState({
-        text: ''
+        text: '',
+        subject: ''
     });
     
     let profilePicUrl = null;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const { text } = formData;
+    const { text, subject } = formData;
 
     const onSubmitNewPost = async e => {
         e.preventDefault();
@@ -70,8 +77,20 @@ const Profile = ({ match,
             setNotification(profile.user, `u:${user.username} posted a pc:${profile.username}:${newPost.commentId} on your p:profile`);
         });
         
+        hideCommentBox();
         setFormData({text:''});
     };
+
+    const onSubmitNewPrivateMessage = async e => {
+        e.preventDefault();
+        const newMessagePromise = createMessageToUser(formData, profile.user);
+
+        newMessagePromise.then((newMessage) => {
+            setNotification(profile.user, `u:${user.username} has sent you a new pm:${newMessage.messageId}`);
+        });
+        
+        hidePrivateMessageBox();
+    };    
 
     const onSubmitFriendshipRequest = async e => {
         e.preventDefault();
@@ -82,23 +101,40 @@ const Profile = ({ match,
         });
     }
 
+    const expandCommentBox = async => {
+        setShowCommentBox(true);
+    }
+
+    const hideCommentBox = async => {
+        setShowCommentBox(false);
+    }
+
+    const expandPrivateMessageBox = async => {
+        setShowPrivateMessageBox(true);
+    }
+
+    const hidePrivateMessageBox = async => {
+        setShowPrivateMessageBox(false);
+    }        
+
     const isOwnProfile = (profile && profile?.user === user?._id);
     if (profile && profile?.profile_pic?.url_175) {
         profilePicUrl = profile?.profile_pic?.url_175;
     } else if (profile && profile?.profile_pic?.url_full) {
         profilePicUrl = profile?.profile_pic?.url_full;
     }
-
     
+    let profileHasLoaded;
+    profileHasLoaded = (profile && profile.username === match.params.username);
 
     return (
         <Layout>
-            {profile === null && error.status !== 400 ? <Spinner /> :
+            {!profileHasLoaded ? <Spinner /> :
             <div className="profile-container">
 
                 <div className="profile-info">
                     {profile && <Fragment>
-                    <p>{match.params.username}'s profile</p>
+                    <p>{profile.username}'s profile</p>
                     {profilePicUrl && 
                         <img className="profile--pic" src={profilePicUrl} alt={`${match.params.username}'s profile`}/>
                     }
@@ -171,8 +207,26 @@ const Profile = ({ match,
                     <div className="friendship-box">
                         {profile.username} is your friend.
                     </div>
-                }                    
+                    }                    
 
+
+                    <div className="mobile-profile-info">
+                        {profile && <Fragment>
+                        <div>
+                            <p>{profile.username}'s profile</p>
+                            {profilePicUrl && 
+                                <img className="mobile-profile--pic" src={profilePicUrl} alt={`${match.params.username}'s profile`}/>
+                            }
+                        </div>
+                        </Fragment>
+                        }
+
+                        <ProfileNavbar username={profile.username} expandCommentBox={expandCommentBox} expandPrivateMessageBox={expandPrivateMessageBox} friendshipStatus={friendshipStatus} />
+                    </div>
+
+                    <ProfileNavbar username={profile.username} expandCommentBox={expandCommentBox} expandPrivateMessageBox={expandPrivateMessageBox} friendshipStatus={friendshipStatus} />
+
+                    {showCommentBox && 
                     <div className="profile-action-box">
                         <form>
                             <textarea
@@ -186,6 +240,30 @@ const Profile = ({ match,
                             <p><button onClick={e => onSubmitNewPost(e)}>Add new comment</button></p>
                         </form>
                     </div>
+                    }
+
+                    {showPrivateMessageBox && 
+                        <div className="profile-action-box">
+                            <form>
+                                <input 
+                                    type="text"
+                                    name="subject"
+                                    value={subject}
+                                    onChange={e => onChange(e)
+                                    }
+                                />
+                                <textarea
+                                    name="text"
+                                    rows="4"
+                                    value={text}
+                                    onChange={e => onChange(e)
+                                    }
+                                />
+    
+                                <p><button onClick={e => onSubmitNewPrivateMessage(e)}>Send private message</button></p>
+                            </form>
+                        </div>
+                    }                    
 
                     {posts.length > 0 && <div className="profile-comments-box">
                         {posts.map(post => (
@@ -204,8 +282,10 @@ const Profile = ({ match,
 };
 
 Profile.propTypes = {
+    clearProfile: PropTypes.func.isRequired,
     getProfileByUsername: PropTypes.func.isRequired,
     createPostToUserProfile: PropTypes.func.isRequired,
+    createMessageToUser: PropTypes.func.isRequired,
     getUserProfilePosts: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     posts: PropTypes.object
@@ -218,8 +298,10 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, { 
+    clearProfile,
     getProfileByUsername, 
     createPostToUserProfile, 
+    createMessageToUser,
     getUserProfilePosts, 
     setNotification,
     sendFriendRequest,

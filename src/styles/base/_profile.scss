@@ -5,10 +5,29 @@
 
 .profile-info {
     max-width: 300px;
+    display: none;
+
+    @media (min-width: $desktop-breakpoint - .01rem) {
+        display: block;
+    }
+}
+
+.mobile-profile-info {
+    max-width: 300px;
+    display: flex;
+    flex-direction: row;
+ 
+    @media (min-width: $desktop-breakpoint - .01rem) {
+        display: none;
+    }
 }
 
 .profile--pic {
     max-width: 175px;
+}
+
+.mobile-profile--pic {
+    max-width: 100px;
 }
 
 .profile--label {
@@ -86,11 +105,5 @@
 }
 
 .notificationCount {
-    color: white;
-    font-size: $m-size;
-    padding-left: 5px;
-    
-    a {
-        text-decoration: none;
-    }
+    padding-left: $xxs-size;
 }

@@ -1,10 +1,13 @@
 import database from '../../config/firebase';
 import React, {Fragment, useState, useEffect} from 'react';
+import BellIcon from 'react-bell-icon';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const NotificationCount = ({ auth: { user } }) => {
     const [notificationCount, setNotificationCount] = useState(-1);
+    let notificationCountColor = (notificationCount > 0) ? 'red' : 'white';
+    let notificationCountWord = (notificationCount === 1) ? 'Notification' : 'Notifications';
 
     useEffect(() => {
         async function getNotificationCount(user) {
@@ -24,8 +27,9 @@ const NotificationCount = ({ auth: { user } }) => {
 
     return (
         <Fragment>
-            <span className="notificationCount">
-                {notificationCount >= 0 && notificationCount} Notifications
+            <BellIcon width='20' height='20' color={notificationCountColor} active={true} />        
+            <span className='notificationCount'>
+                    {notificationCount >= 0 && notificationCount} {notificationCountWord}
             </span>
         </Fragment>
     )

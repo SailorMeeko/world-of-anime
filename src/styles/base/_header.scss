@@ -3,3 +3,11 @@ header {
     position: relative;
     width: 100%;
 }
+
+
+.page-heading {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    font-size: $m-size;
+    margin-bottom: $m-size;
+}

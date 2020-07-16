@@ -34,6 +34,8 @@ export const createReplyToPost = (formData, postId) => async dispatch => {
     try {
         formData = { text: formData.replyText };
         const res = await api.post(`/api/posts/comment/${postId}`, formData);
+
+        return { newPost: res.data }
         
         dispatch({
             type: CREATE_REPLY,

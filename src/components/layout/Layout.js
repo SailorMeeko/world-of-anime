@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import Header from './Header';
 
 const Layout = (props) => {
@@ -6,11 +7,13 @@ const Layout = (props) => {
         <Fragment>
             <Header />
             <div className='container'>
-                <img 
-                    className='container--img'
-                    src='/images/classic-header.jpg'
-                    alt='World of Anime' 
-                />
+                <Link to='/'>
+                    <img 
+                        className='container--img'
+                        src='/images/classic-header.jpg'
+                        alt='World of Anime' 
+                    />
+                </Link>
 
                 <main>
                     {props.children}

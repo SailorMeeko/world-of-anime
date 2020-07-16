@@ -9,6 +9,12 @@ const ProfileHead = ({ profile, msg, secondaryMsg }) => {
         profilePicUrl = profile?.profile_pic?.url_full;
     }
 
+    if (profile && profile?.avatar?.url_175) {
+        profilePicUrl = profile?.avatar?.url_175;
+    } else if (profile && profile?.avatar?.url_full) {
+        profilePicUrl = profile?.avatar?.url_full;
+    }    
+
     return (
         <div className="profile-head">
             <img className="profile--pic-small" src={profilePicUrl} alt={`${profile.username}'s profile`} />
