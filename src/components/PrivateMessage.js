@@ -2,13 +2,17 @@ import React, {Fragment, useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getMessage } from '../actions/message';
+import { getMessage, createReplyToMessage } from '../actions/message';
+import { setNotification} from '../actions/notification';
+import PrivateMessageComment from './PrivateMessageComment';
 import Layout from './layout/Layout';
 import Moment from 'react-moment';
 import moment from 'moment';
 
 const PrivateMessage = ({ match,
                 getMessage,
+                createReplyToMessage,
+                setNotification,
                 auth: { isAuthenticated, user, loading }
             }) => {
 
@@ -44,12 +48,21 @@ const PrivateMessage = ({ match,
     
         const onSubmitNewReply = async e => {
             e.preventDefault();
-        //   const newReplyPromise = createReplyToPost(formData, _id);
+          const newReplyPromise = createReplyToMessage(formData, match.params.id);
     
-        //     newReplyPromise.then((post) => {
-        //         // TODO - Send this to everyone on this thread
-        //         setNotification(profile.user, `u:${post.newPost.comments[0].user.username} posted a pr:${profile.username}:${_id} to a comment on your p:profile`);
-        //     });  
+            newReplyPromise.then((post) => {
+                setMessage(post.newComment);
+
+                // One of 2 people will be notified about this.
+                // We assume it is the original recipient of the comment (to)
+                // However, if they wrote the comment, then we notify the original writer of the message (from)
+                const commentsArrayLength = post.newComment.comments.length;
+                let userToNotify = post.newComment.to;
+                if (userToNotify === post.newComment.comments[commentsArrayLength - 1].user._id) {
+                    userToNotify = post.newComment.from._id;
+                }
+                setNotification(userToNotify, `u:${post.newComment.comments[commentsArrayLength - 1].user.username} posted a reply to a pm:${match.params.id}`);
+            });
     
             setFormData({replyText:''});
             setShowSetupReplyButton(true);
@@ -90,7 +103,7 @@ const PrivateMessage = ({ match,
                             (a, b) =>
                             moment(a.date) - moment(b.date)
                            ).map(comment => (
-                            <br />
+                            <PrivateMessageComment key={comment._id} comment={comment} />
                         ))}
                 </Fragment>}     
     
@@ -123,7 +136,9 @@ PrivateMessage.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    getMessage: PropTypes.func.isRequired
+    getMessage: PropTypes.func.isRequired,
+    createReplyToMessage: PropTypes.func.isRequired,
+    setNotification: PropTypes.func.isRequired
 });
 
-export default connect(mapStateToProps, { getMessage })(PrivateMessage);
+export default connect(mapStateToProps, { getMessage, createReplyToMessage, setNotification })(PrivateMessage);

@@ -7,7 +7,7 @@
 }
 
 .message-container-reply {
-    @extend .post-container;
+    @extend .message-container;
     width: 85%;
     background-color: darken($off-white, 10%);
     margin-left: auto;

@@ -57,6 +57,14 @@ export const rejectFriendRequest = requestId => async dispatch => {
     }
 }
 
+// Remove a friend
+export const removeFriend = userId => async dispatch => {
+    try {
+        const res = await api.get(`/api/friendship/remove/${userId}`);
+    } catch (error) {
+    }
+}
+
 // Get user friends
 export const getUserFriends = userId => async dispatch => {
     try {

@@ -1,18 +1,27 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
+import { updateLastOnline } from '../../actions/user';
 import NotificationCount from '../layout/NotificationCount';
 
-const TopNavbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
+const TopNavbar = ({ logout, 
+                    updateLastOnline, 
+                    auth: { isAuthenticated, loading, user } } ) => {
     const onClick = async e => {
         e.preventDefault();
         logout();
     }
 
     const username = user?.username;
+
+    useEffect(() => {
+        if (user) {
+            updateLastOnline();
+        }
+    });
     
     const guestLinks = (
         <Fragment>
@@ -84,11 +93,12 @@ const TopNavbar = ({ logout, auth: { isAuthenticated, loading, user } } ) => {
 
 TopNavbar.propTypes = {
     auth: PropTypes.object,
-    logout: PropTypes.func.isRequired
+    logout: PropTypes.func.isRequired,
+    updateLastOnline: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
 })
 
-export default connect(mapStateToProps, { logout })(TopNavbar);
+export default connect(mapStateToProps, { logout, updateLastOnline })(TopNavbar);

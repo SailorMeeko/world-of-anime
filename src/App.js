@@ -14,6 +14,7 @@ import Thread from './components/profile/Thread';
 import Friends from './components/profile/Friends';
 import Join from './components/Join';
 import Login from './components/Login';
+import Online from './components/Online';
 import ForgotPassword from './components/ForgotPassword';
 
 // Redux
@@ -90,6 +91,11 @@ const App = () => {
               component = {Friends} />              
             
           <Route exact={true} path="/join" component={Join} />
+
+          <Route 
+          exact={true}
+          path="/online"
+          component = {Online} />
 
           <Route 
           exact={true}

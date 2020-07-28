@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import Layout from './layout/Layout';
 import PropTypes from 'prop-types';
-import { getNewMembers } from '../actions/profile';
+import { getNewMembers } from '../actions/user';
 import ProfileBasic from './profile/ProfileBasic';
 import { connect } from 'react-redux';
 

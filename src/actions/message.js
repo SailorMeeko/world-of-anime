@@ -36,3 +36,18 @@ export const getMessage = (messageId) => async dispatch => {
 
     }
 }
+
+// Reply to a message
+export const createReplyToMessage = (formData, messageId) => async dispatch => {
+    try {
+        formData = { text: formData.replyText };
+        console.log(messageId);
+        console.log(formData);
+        const res = await api.post(`/api/message/comment/${messageId}`, formData);
+
+        return { newComment: res.data }
+        
+    } catch (error) {
+
+    }
+}

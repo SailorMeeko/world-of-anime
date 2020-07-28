@@ -13,7 +13,11 @@ const Notification = ({ auth: { user, loading },
 
             msg = reactStringReplace(msg, 'p:profile', (match, i) => (
                 <Link key={`${id}-profile`} to={`/profile/${user.username}`}>profile</Link>
-              ));
+            ));
+
+            msg = reactStringReplace(msg, 'fr:', (match, i) => (
+                <Link key={`${id}-friend_request`} to={`/friend_requests`}>friend request</Link>
+            ));              
 
             msg = reactStringReplace(msg, /u:(\w+)/, (match, i) => (
                 <Link key={`${id}-user`} to={`/profile/${match}`}>{match}</Link>

@@ -93,5 +93,4 @@ MemberSearch.propTypes = {
     searchForMembers: PropTypes.func.isRequired
 }
 
-
 export default connect(null, {searchForMembers})(MemberSearch);

@@ -7,7 +7,7 @@ import Moment from 'react-moment';
 import { clearProfile, getProfileByUsername } from '../../actions/profile';
 import { createPostToUserProfile, getUserProfilePosts } from '../../actions/post';
 import { createMessageToUser } from '../../actions/message';
-import { sendFriendRequest, updateNumFriendRequests, getFriendshipStatus } from '../../actions/friendship';
+import { sendFriendRequest, updateNumFriendRequests, getFriendshipStatus, removeFriend } from '../../actions/friendship';
 import { setNotification} from '../../actions/notification';
 import Post from './Post';
 import Spinner from '../layout/Spinner';
@@ -25,6 +25,7 @@ const Profile = ({ match,
                     sendFriendRequest,
                     updateNumFriendRequests,
                     getFriendshipStatus,
+                    removeFriend,
                     profile: { profile, loading, error },
                     post: { posts } }) => {
 
@@ -97,8 +98,17 @@ const Profile = ({ match,
         
         const newFriendRequest = sendFriendRequest(profile.user);
         newFriendRequest.then(() => {
+            setNotification(profile.user, `u:${user.username} has sent you a new fr:`);
             updateNumFriendRequests(profile.user);
         });
+    }
+
+    const onSubmitRemoveFriend = async e => {
+        e.preventDefault();
+
+        removeFriend(profile.user);
+        setNotification(profile.user, `u:${user.username} has removed you as a friend.  Sorry it didn't work out.`);
+        setFriendshipStatus('removed');
     }
 
     const expandCommentBox = async => {
@@ -205,7 +215,7 @@ const Profile = ({ match,
 
                     {!isOwnProfile && loading === false && friendshipStatus === 'friends' && 
                     <div className="friendship-box">
-                        {profile.username} is your friend.
+                        {profile.username} is your friend.  <button className='remove-button' onClick={e => onSubmitRemoveFriend(e)}>remove friend</button>
                     </div>
                     }                    
 
@@ -287,6 +297,7 @@ Profile.propTypes = {
     createPostToUserProfile: PropTypes.func.isRequired,
     createMessageToUser: PropTypes.func.isRequired,
     getUserProfilePosts: PropTypes.func.isRequired,
+    removeFriend: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     posts: PropTypes.object
 }
@@ -306,4 +317,5 @@ export default connect(mapStateToProps, {
     setNotification,
     sendFriendRequest,
     updateNumFriendRequests,
-    getFriendshipStatus })(Profile);
+    getFriendshipStatus,
+    removeFriend })(Profile);
