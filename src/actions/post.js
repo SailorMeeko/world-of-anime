@@ -50,12 +50,12 @@ export const createReplyToPost = (formData, postId) => async dispatch => {
 }
 
 // Get posts from a user profile
-export const getUserProfilePosts = profileId => async dispatch => {
+export const getUserProfilePosts = (profileId, page = 1) => async dispatch => {
     try {
         dispatch({
             type: CLEAR_POSTS
         });
-        const res = await api.get(`/api/posts/profile/${profileId}`);
+        const res = await api.get(`/api/posts/profile/${profileId}?page=${page}`);
 
         dispatch({
             type: GET_POSTS,

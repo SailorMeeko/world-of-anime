@@ -13,6 +13,7 @@ import Post from './Post';
 import Spinner from '../layout/Spinner';
 import Layout from '../layout/Layout';
 import ProfileNavbar from './ProfileNavbar';
+import Pagination from '../Pagination';
 
 const Profile = ({ match, 
                     auth: { user }, 
@@ -63,12 +64,18 @@ const Profile = ({ match,
         text: '',
         subject: ''
     });
-    
+
     let profilePicUrl = null;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const { text, subject } = formData;
+
+    const fetchPagePosts = async (e, page) => {
+        e.preventDefault();
+        console.log(page);
+        getUserProfilePosts(profile._id, page);        
+    }
 
     const onSubmitNewPost = async e => {
         e.preventDefault();
@@ -275,12 +282,14 @@ const Profile = ({ match,
                         </div>
                     }                    
 
-                    {posts.length > 0 && <div className="profile-comments-box">
-                        {posts.map(post => (
+                    {posts && posts.posts && posts.posts.length > 0 && <div className="profile-comments-box">
+                        {posts.posts.map(post => (
                             <Post key={post._id} post={post} profile={profile} />
                         ))}
-                    </div>}            
 
+                        <Pagination currentPage={posts.currentPage} totalPages={posts.totalPages} onClickHandler={fetchPagePosts} />
+                    </div>}
+                    
                 </div>
             </div>}
 
