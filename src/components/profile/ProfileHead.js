@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 
 const ProfileHead = ({ profile, msg, secondaryMsg }) => {
     let profilePicUrl = null;

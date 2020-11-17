@@ -14,12 +14,13 @@ export const createPostToUserProfile = (formData, profileId) => async dispatch =
     try {
         formData = {...formData, profileId};
         const res = await api.post(`/api/posts`, formData);
- 
+
         dispatch({
             type: CREATE_POST,
             payload: res.data
         });
 
+        console.log('Returning', res.data._id);
         return { commentId: res.data._id };
     } catch (error) {
         dispatch({

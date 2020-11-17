@@ -106,6 +106,10 @@ const App = () => {
           exact={true}
           path="/login/forgot"
           component = {ForgotPassword} />
+
+          <Route 
+          path="*" 
+          component={Home} />
           
           </Switch>          
         </Fragment>

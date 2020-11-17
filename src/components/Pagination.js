@@ -1,6 +1,4 @@
 import React, {Fragment} from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 const Pagination = ( { currentPage, totalPages, onClickHandler }) => {
     let pages = [];
@@ -11,7 +9,7 @@ const Pagination = ( { currentPage, totalPages, onClickHandler }) => {
     return (
         <Fragment>
             {pages.map((value, index) => {
-                return (currentPage == value) ?
+                return (currentPage === value) ?
                     <Fragment key={index}>
                         {value}
                     </Fragment>

@@ -14,7 +14,7 @@ const Online = ( { getOnlineMembers }) => {
                 setOnlineMembers(members);
             });
         }
-    }, []);
+    }, [getOnlineMembers, onlineMembers]);
 
     return (
         <Layout>

@@ -10,9 +10,11 @@ const NotificationCount = ({ auth: { user } }) => {
     let notificationCountWord = (notificationCount === 1) ? 'Notification' : 'Notifications';
 
     useEffect(() => {
+        let currentCountRef;
+
         async function getNotificationCount(user) {
             if (user) {
-                var currentCountRef = database.ref(`users/${user._id}/unread_notification_count`);
+                currentCountRef = database.ref(`users/${user._id}/unread_notification_count`);
                 currentCountRef.on('value', function(snapshot) {
                     if (!snapshot.val()) {
                         setNotificationCount(0);
@@ -22,8 +24,15 @@ const NotificationCount = ({ auth: { user } }) => {
                 });
             }
         }
+
         getNotificationCount(user);
-    }, [user]);
+
+        return function cleanup() {
+            if (currentCountRef != null) {
+                currentCountRef.off();
+            }
+        }
+    }, []);
 
     return (
         <Fragment>

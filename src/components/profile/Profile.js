@@ -33,6 +33,8 @@ const Profile = ({ match,
     const [friendshipStatus, setFriendshipStatus] = useState(null);
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [showPrivateMessageBox, setShowPrivateMessageBox] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         setFriendshipStatus(null);   
@@ -73,7 +75,6 @@ const Profile = ({ match,
 
     const fetchPagePosts = async (e, page) => {
         e.preventDefault();
-        console.log(page);
         getUserProfilePosts(profile._id, page);        
     }
 
@@ -82,7 +83,8 @@ const Profile = ({ match,
         const newPostPromise = createPostToUserProfile(formData, profile._id);
 
         newPostPromise.then((newPost) => {
-            setNotification(profile.user, `u:${user.username} posted a pc:${profile.username}:${newPost.commentId} on your p:profile`);
+            // console.log(newPost);
+            // setNotification(profile.user, `u:${user.username} posted a pc:${profile.username}:${newPost.commentId} on your p:profile`);
         });
         
         hideCommentBox();
@@ -108,6 +110,7 @@ const Profile = ({ match,
             setNotification(profile.user, `u:${user.username} has sent you a new fr:`);
             updateNumFriendRequests(profile.user);
         });
+        setFriendshipStatus('');
     }
 
     const onSubmitRemoveFriend = async e => {
@@ -197,7 +200,6 @@ const Profile = ({ match,
 
                     {!isOwnProfile && loading === false && friendshipStatus === 'no friendship' && 
                         <div className="friendship-box">
-                            Friendship: {friendshipStatus}
                             <button onClick={e => onSubmitFriendshipRequest(e)}>Send a Friend Request to {profile.username}</button>
                         </div>
                     }
@@ -282,12 +284,12 @@ const Profile = ({ match,
                         </div>
                     }                    
 
-                    {posts && posts.posts && posts.posts.length > 0 && <div className="profile-comments-box">
-                        {posts.posts.map(post => (
+                    {posts && posts.length > 0 && <div className="profile-comments-box">
+                        {posts.map(post => (
                             <Post key={post._id} post={post} profile={profile} />
                         ))}
 
-                        <Pagination currentPage={posts.currentPage} totalPages={posts.totalPages} onClickHandler={fetchPagePosts} />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onClickHandler={fetchPagePosts} />
                     </div>}
                     
                 </div>

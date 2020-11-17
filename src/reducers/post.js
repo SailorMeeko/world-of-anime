@@ -17,15 +17,17 @@ export default function(state = initialState, action) {
     switch (type) {
         case GET_POSTS:
         case GET_POST:
+            console.log('payload is', payload);            
             return {
                 ...state,
-                posts: payload,
+                posts: payload.posts,
             }
 
         case CREATE_POST:
+            console.log('payload is', payload);
             return {
                 ...state,
-                posts: [payload, ...state.posts]
+                posts: [payload.posts, ...state.posts]
             }
 
         case CREATE_REPLY:

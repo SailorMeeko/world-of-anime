@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect} from 'react';
-
+import flags from '../../config/flags';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -51,33 +51,36 @@ const TopNavbar = ({ logout,
             </Link>
             </li>
 
-            <li className='navbar__link'>
-            <Link to='/members/search'>
-                Search for Members
-            </Link>
-            </li>            
-            { !loading && (
-                <Fragment>
-                {isAuthenticated ? (<Fragment>
-                    <li className='navbar__link'>
-                        <Link to={`/profile/${username}`}>My Profile</Link>
-                    </li>
-                    <li className='navbar__link'>
-                        <Link to={`/notifications`}>
-                            <NotificationCount />
+            { flags.socialSite && <Fragment>
+                <li className='navbar__link'>
+                <Link to='/members/search'>
+                    Search for Members
+                </Link>
+                </li>            
+                { !loading && (
+                    <Fragment>
+                    {isAuthenticated ? (<Fragment>
+                        <li className='navbar__link'>
+                            <Link to={`/profile/${username}`}>My Profile</Link>
+                        </li>
+                        <li className='navbar__link'>
+                            <Link to={`/notifications`}>
+                                <NotificationCount />
+                            </Link>
+                        </li>
+                        <Link to={`/friend_requests`}>
+                            
                         </Link>
-                    </li>
-                    <Link to={`/friend_requests`}>
-                        
-                    </Link>
-                    <button onClick={e => onClick(e)}>
-                        Log out
-                    </button>                    
-                    </Fragment>) : (<Fragment>
-                        {guestLinks}
-                    </Fragment>)}                   
+                        <button onClick={e => onClick(e)}>
+                            Log out
+                        </button>                    
+                        </Fragment>) : (<Fragment>
+                            {guestLinks}
+                        </Fragment>)}                   
+                    </Fragment>
+                ) }
                 </Fragment>
-            ) }
+            }
         </ul>
     </Fragment>
     );

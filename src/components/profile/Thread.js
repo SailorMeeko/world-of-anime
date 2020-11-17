@@ -28,8 +28,8 @@ const Thread = ({ match,
             {profile === null ? <Spinner /> :
                 <Fragment>
                     <ProfileHead profile={profile} msg={`This exciting thread is taking place on ${profile.username}'s profile`} />
-                    {!posts.user && <Spinner />}
-                    {posts.user && <Post post={posts} />}
+                    {posts && !posts.user && <Spinner />}
+                    {posts && posts.user && <Post post={posts} />}
                 </Fragment>}
         </Layout>
     )

@@ -1,11 +1,17 @@
 .notification {
     display: flex;
+    justify-content: space-between;
+    height: $l-size;
 }
 
 .notification-text {
-    width: 80%;
+    width: 70%;
 }
 
-.notification-time {
-    width: 10%;
+.notification-label {
+    font-size: $ml-size;
+    margin-top: $s-size;
+}
+
+.notification-remove {
 }
