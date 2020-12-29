@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './styles/styles.scss';
+import flags from './config/flags';
 import Alert from './components/layout/Alert';
 import Home from './components/Home';
 import Profile from './components/profile/Profile';
@@ -15,6 +16,9 @@ import Friends from './components/profile/Friends';
 import Join from './components/Join';
 import Login from './components/Login';
 import Online from './components/Online';
+import Support from './components/Support';
+import Updates from './components/Updates';
+import Newsletter from './components/Newsletter';
 import ForgotPassword from './components/ForgotPassword';
 
 // Redux
@@ -45,67 +49,84 @@ const App = () => {
               path="/"
               component = {Home} />
 
-          <Route 
-          exact={true}
-          path="/profile"
-          component = {EditProfile} />
+          {flags.socialSite && <Fragment>
+            <Route 
+            exact={true}
+            path="/profile"
+            component = {EditProfile} />
 
-          <Route 
-          exact={true}
-          path="/notifications"
-          component = {Notifications} />
+            <Route 
+            exact={true}
+            path="/notifications"
+            component = {Notifications} />
 
-          <Route
-          exact={true}
-          path="/friend_requests"
-          component = {FriendRequests} />
+            <Route
+            exact={true}
+            path="/friend_requests"
+            component = {FriendRequests} />
 
-          <Route
-          exact={true}
-          path="/pm"
-          component = {PrivateMessages} />
-          
-          <Route
-          exact={true}
-          path="/pm/:id"
-          component = {PrivateMessage} />          
-
-          <Route 
-          exact={true}
-          path="/members/search"
-          component = {MemberSearch} />                             
-
-          <Route 
-              exact={true}
-              path="/profile/:username"
-              component = {Profile} />
-
-          <Route
-              exact={true}
-              path="/profile/:username/thread/:id"
-              component = {Thread} />
-
-          <Route
-              exact={true}
-              path="/profile/:username/friends"
-              component = {Friends} />              
+            <Route
+            exact={true}
+            path="/pm"
+            component = {PrivateMessages} />
             
-          <Route exact={true} path="/join" component={Join} />
+            <Route
+            exact={true}
+            path="/pm/:id"
+            component = {PrivateMessage} />          
 
-          <Route 
-          exact={true}
-          path="/online"
-          component = {Online} />
+            <Route 
+            exact={true}
+            path="/members/search"
+            component = {MemberSearch} />                             
 
-          <Route 
-          exact={true}
-          path="/login"
-          component = {Login} />
+            <Route 
+                exact={true}
+                path="/profile/:username"
+                component = {Profile} />
+
+            <Route
+                exact={true}
+                path="/profile/:username/thread/:id"
+                component = {Thread} />
+
+            <Route
+                exact={true}
+                path="/profile/:username/friends"
+                component = {Friends} />              
+              
+            <Route exact={true} path="/join" component={Join} />
+
+            <Route 
+            exact={true}
+            path="/online"
+            component = {Online} />
+
+            <Route 
+            exact={true}
+            path="/login"
+            component = {Login} />
+  
+            <Route
+            exact={true}
+            path="/login/forgot"
+            component = {ForgotPassword} />
+          </Fragment>}
 
           <Route
           exact={true}
-          path="/login/forgot"
-          component = {ForgotPassword} />
+          path="/support"
+          component = {Support} />
+
+          <Route
+          exact={true}
+          path="/updates"
+          component = {Updates} />
+
+          <Route
+          exact={true}
+          path="/newsletter"
+          component = {Newsletter} />
 
           <Route 
           path="*" 

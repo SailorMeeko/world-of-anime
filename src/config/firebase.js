@@ -20,6 +20,7 @@ import * as firebase from 'firebase';
 //     appId: process.env.FIREBASE_APP_ID
 // };
 
+// dev
 const firebaseConfig = {
     apiKey: "AIzaSyDq1TJpo6-KuLt79EPzUW1MUNVfjmGQE5Q",
     authDomain: "world-of-anime-dev.firebaseapp.com",
@@ -29,6 +30,17 @@ const firebaseConfig = {
     messagingSenderId: "317780754877",
     appId: "1:317780754877:web:3164a1c1e1b81d30d652d4"
 };
+
+// prod
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBBTnL-_2U8-AKQMcNytrgw3MedWyEbOl0",
+//     authDomain: "world-of-anime-prod.firebaseapp.com",
+//     databaseURL: "https://world-of-anime-prod.firebaseio.com",
+//     projectId: "world-of-anime-prod",
+//     storageBucket: "world-of-anime-prod.appspot.com",
+//     messagingSenderId: "538215174018",
+//     appId: "1:538215174018:web:68210cb352c2e50314099b"
+// };
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);

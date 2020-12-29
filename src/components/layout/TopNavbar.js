@@ -51,6 +51,24 @@ const TopNavbar = ({ logout,
             </Link>
             </li>
 
+            <li className='navbar__link'>
+            <Link to='/newsletter'>
+                Newsletter
+            </Link>
+            </li>
+            
+            <li className='navbar__link'>
+            <Link to='/updates'>
+                Updates
+            </Link>
+            </li>
+
+            <li className='navbar__link'>
+            <Link to='/support'>
+                Support
+            </Link>
+            </li>            
+
             { flags.socialSite && <Fragment>
                 <li className='navbar__link'>
                 <Link to='/members/search'>

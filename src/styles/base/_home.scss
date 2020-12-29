@@ -19,3 +19,21 @@
     font-size: 3em;
     font-weight: bold;
 }
+
+.legacy-title img {
+    max-width: 95%;
+}
+
+@media (min-width: $desktop-breakpoint) {
+
+    .mobile {
+        display: none;
+    }
+}
+
+@media (max-width: $desktop-breakpoint) {
+
+    .desktop {
+        display: none;
+    }
+}

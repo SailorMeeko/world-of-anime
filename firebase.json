@@ -3,10 +3,10 @@
     "public": "build",
     "rewrites": [
       {
-        "source": "**",
+        "source": "**/**",
         "destination": "/index.html"
       }
-    ],        
+    ],    
     "ignore": [
       "firebase.json",
       "**/.*",

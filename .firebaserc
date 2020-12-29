@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "world-of-anime-dev"
+    "default": "world-of-anime-dev",
+    "prod": "world-of-anime-prod"
   }
 }
