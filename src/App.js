@@ -19,6 +19,7 @@ import Online from './components/Online';
 import Support from './components/Support';
 import Updates from './components/Updates';
 import Newsletter from './components/Newsletter';
+import ShoutBox from './components/ShoutBox';
 import ForgotPassword from './components/ForgotPassword';
 
 // Redux
@@ -127,6 +128,11 @@ const App = () => {
           exact={true}
           path="/newsletter"
           component = {Newsletter} />
+
+          <Route
+          exact={true}
+          path="/shout"
+          component = {ShoutBox} />
 
           <Route 
           path="*" 

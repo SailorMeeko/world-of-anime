@@ -73,7 +73,7 @@ const Home = ( { getNewMembers,
 
                         <div className="home-content">
                         <h3>What happened to World of Anime, the social networking site?</h3>
-                        <p>From 2009 - 2020, World of Anime was the place to go for anime fans to connect with each to discuss their love of the medium.  Through two (and a half) major versions of the site, anime fans everywhere could find any connect with others who shared their same passion.  Now, a new version is under development, and we look forward to having you join us in the future to continue the legacy of World of Anime.</p>
+                        <p>From 2009 - 2020, World of Anime was the place to go for anime fans to connect with each to discuss their love of the medium.  Through two (and a half) major versions of the site, anime fans everywhere could find and connect with others who shared their same passion.  Now, a new version is under development, and we look forward to having you join us in the future to continue the legacy of World of Anime.</p>
                         <h3>When will the new version be available?</h3>
                         <p>It is completely unknown when the new version will be available.  It is still under development, and it will be ready when it is ready.  Keep checking the <Link to='/updates'>updates</Link> page to see what's new.</p>
                         <h3>So what can I do on this site now?</h3>

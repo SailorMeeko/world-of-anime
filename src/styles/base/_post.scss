@@ -16,6 +16,7 @@
 .post-content-container {
     display: flex;
     flex-direction: row;
+    white-space: pre-wrap;  
 }
 
 .post-content-container-reply {
